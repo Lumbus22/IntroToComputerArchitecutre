@@ -1,0 +1,28 @@
+#Assingment 1 Question B
+
+li s0, 0 #i = 0 = s0
+li s1, 0 #a = 0 = s1
+
+li t0, 0 #and result
+li t1, 12 #loading 12 into t1 for the for loop
+li t2, 16 #loading 16 for if check
+
+#If i is even the program goes back to the start of the for loop
+
+for:
+    bge s0, t1, done #if i >= 12 the loop ends
+    addi s0, s0, 1 #i++
+    
+    andi t0, s0, 1 #and i with 1, store result in t1
+    beqz t0, for #if i even go back to the loop
+    
+    #else
+    add s1, s1, s0 # a = a + i
+    blt s1, t2, for #if a < 16 go back tot he for loop
+    addi s1, s1, -4 #if a >= 16 a = a - 4
+    j for
+    
+        
+    
+done:
+    addi zero, zero, 0

@@ -1,0 +1,33 @@
+#Assingment 1 Question 1
+
+
+li a0, 7 # x = 7 = a0
+li a1, 20 # y = 20 = a1
+
+li s0, 0 # z = 0 = s1
+
+li t0, 0 #temp odd result
+
+
+while:
+    ble a1, a0, done #If y <= x, end while loop
+    addi a1, a1, -3 # y = y - 3
+    
+    andi t0, a1, 1 #If y is odd then t0 = 1, if y is even t0 = 0
+    
+    beqz t0, else #If the result is even, branch to the else
+    
+    add s0, s0, a1 #if the result is odd z = z + y
+   
+   j while
+   
+else:
+    sub s0, s0, a0
+    addi a0, a0, 2
+    j while
+    
+done:
+    addi zero, zero, 0 
+    
+
+#Program runs in ripes.
