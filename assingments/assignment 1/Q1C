@@ -1,0 +1,29 @@
+#Assingment 1 Question B
+
+li s0, 2 #p = 2 = s0
+li s1, 5 #q = 5 = s1
+
+li t0, 12 #loading 12 into t0 for the if statement
+
+
+do:
+    add s0, s0, s1 # p = p + q
+    blt s0, t0, if # bracnh to if
+    
+    #else
+    addi s1, s1, -2
+ 
+     #check will go back to do if passes
+    j check
+            
+if: 
+    addi s0, s0, 1 # p = p + 1
+    j check
+    
+    
+check: #If the check passes the do while continues
+    blez s0, done
+    j do  
+    
+done:
+    addi zero, zero, 0

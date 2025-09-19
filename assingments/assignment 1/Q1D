@@ -1,0 +1,24 @@
+#Assingment 1 Question B
+
+li s0, 0 # x = 0 = s0
+li s1, 7 # y = 7 = s1
+li s2, 0 # z = 0 = s2
+
+li t0, 4 # loading 4 into t0 for the if statement
+li t1, 10 # laoding to for less z < 10 check 
+
+
+while:
+    bge s0 ,s1 done #if x >= y program ends
+    bge s2, t1, done # if z >= 10 program ends
+    addi s0, s0, 2 # x = x + 2
+    bge s0, t0, if #if x >=4 go to if branch
+    addi s2, s2, 1 #else, z = z +1
+    j while
+
+if:
+    addi s2, s2 3
+    j while
+
+done:
+    addi zero, zero, 0
