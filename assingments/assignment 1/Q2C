@@ -1,0 +1,38 @@
+#Assingment 1 Question B
+
+li s0, 0 # x = 0 = s0
+li s1, 1 # y  = 7 = s1
+li s2, 9 # z = 0 = s2, count / we want the 9th value in the fib sequence
+
+li s3, 1 # current result stored in s3
+
+li t0, 0 # prev value stored in t0
+li t1, 1 # next value stored in t1
+li t2, 2 #current count starts at 2 bc we ignore the first 2 states as they are known not calculated
+
+
+beq s2, s0 countiszero #if the count is 0 the outpur doesnt need to be calculated
+beq s2, s1 countisone  #if hte count is 1 the result deos not need to e calculated. these are unnecessary for our implementation as our count will be 9
+
+fib:
+    bge t2, s2, done #if we get to our count we finish
+    add t1, t0, s3 # next = prev + current
+    mv t0, s3      # prev = curr
+    mv s3, t1      # curr = next
+    
+    addi t2, t2, 1 #current count ++
+    
+    j fib # repeat
+    
+      
+
+countiszero:
+    li s3, 0 #result is 0
+    j done
+    
+countisone:
+    li s3, 1 #result is one
+    j done
+
+done:
+    addi zero, zero, 0 #finish program
