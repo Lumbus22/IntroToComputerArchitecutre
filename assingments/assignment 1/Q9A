@@ -1,0 +1,9 @@
+        addi    a0, zero, 24    # Initialize a0 = 24 (example value A)
+        addi    a1, zero, 3     # Initialize a1 = 3 (example value B)
+        addi    t2, zero, 0     # t2 = 0 (counter/quotient)
+loop:   add     t3, a1, zero    # t3 = a1 (initialize accumulator with B)
+        blt     a0, t3, done    # if A < accumulator, we're done
+        addi    t2, t2, 1       # increment counter
+        add     t3, t3, a1      # accumulator += B
+        jal     zero, loop      # repeat loop
+done:   add     a0, t2, zero    # return counter in a0

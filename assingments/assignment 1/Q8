@@ -1,0 +1,132 @@
+#Q8
+
+.data
+
+B:
+    .word 5, 1  #B[0]
+    .word -3, 1 #B[1]
+    .word 7, 0  #B[2]
+    .word 0, 1  #B[3]
+    .word 9, 1  #B[4]
+    .word -4, 0 #B[5]
+    
+
+
+li t0, 6 #t0 = 6, n = 6
+li t1, 0 #t1 = 0, sum = 0
+li t2, 0 #t2 = 0, count = 0
+
+
+
+.text
+.globl main
+main:
+    # Load initial values
+    la      t0, B # t0 = base address of B array
+    lw      t1, n # t1 = n (6)
+    li      t2, 0 # t2 = sum (accumulator)
+    li      t3, 0 # t3 = count
+    li      t4, 0 # t4 = i (loop counter)
+    
+loop_start:
+    #Check loop condition: i < n
+    bge     t4, t1, loop_end # if i >= n, exit loop
+    
+    # Calculate address of B[i]
+    # Each Entry is 8 bytes, so offset = i * 8
+    slli    t5, t4, 3 # t5 = i * 8
+    add     t5, t0, t5 # t5 = address of B[i]
+    
+    #Load B[i].value and B[i].active
+    lw      a0, 0(t5) # a0 = B[i].value (v)
+    lw      a1, 4(t5) # a1 = B[i].active
+    
+    #check if v < 0
+    bltz    a0, negative_case # if v < 0, go to negative_case
+    
+positive_case:
+    #v >= 0: accumulate sum
+    add     t2, t2, a0     # sum += v
+    
+    #Check if B[i].active && (v & 1)
+    beqz    a1, skip_count # if not active, skip counting
+    andi    a2, a0, 1       # a2 = v & 1 (check if odd)
+    beqz    a2, skip_count  # if even, skip counting
+    
+    # Increment count (odd and active)
+    addi    t3, t3, 1  # count++
+    
+skip_count:
+    j       loop_increment
+    
+negative_case:
+    # v < 0: clamp to zero
+    sw      zero, 0(t5) # B[i].value = 0
+    
+loop_increment:
+    addi    t4, t4, 1 # i++
+    j       loop_start
+    
+loop_end:
+    # Store final results
+    la      t6, sum
+    sw      t2, 0(t6) # store sum to memory
+    la      t6, count
+    sw      t3, 0(t6) # store count to memory
+    
+    # Exit (return 0)
+    li      a7, 10 # exit syscall
+    ecall
+
+# Alternative version using fewer registers and more memory accesses
+# (if register pressure is a concern)
+main_alt:
+    la      s0, B # s0 = base address of B (preserved)
+    la      s1, n # s1 = address of n
+    lw      s1, 0(s1) # s1 = n value
+    la      s2, sum # s2 = address of sum
+    la      s3, count # s3 = address of count
+    li      t0, 0 # t0 = i
+    
+loop_alt:
+    bge     t0, s1, end_alt # if i >= n, exit
+    
+    # Calculate B[i] address
+    slli    t1, t0, 3 # t1 = i * 8
+    add     t1, s0, t1  # t1 = &B[i]
+    
+    lw      t2, 0(t1) # t2 = B[i].value
+    lw      t3, 4(t1) # t3 = B[i].active
+    
+    bltz    t2, clamp_alt # if value < 0, clamp
+    
+    # Add to sum
+    lw      t4, 0(s2) # load current sum
+    add     t4, t4, t2 # add value to sum
+    sw      t4, 0(s2)  # store back
+    
+    # Check for odd active
+    beqz    t3, next_alt # if not active, skip
+    andi    t4, t2, 1 # check if odd
+    beqz    t4, next_alt # if even, skip
+    
+    lw      t4, 0(s3) # load count
+    addi    t4, t4, 1  # increment
+    sw      t4, 0(s3) # store back
+    j       next_alt
+    
+clamp_alt:
+    sw      zero, 0(t1) # B[i].value = 0
+    
+next_alt:
+    addi    t0, t0, 1 # i++
+    j       loop_alt
+    
+end_alt:
+    li      a7, 10
+    ecall
+
+
+
+
+
