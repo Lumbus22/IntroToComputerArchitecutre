@@ -1,0 +1,35 @@
+#Q7
+
+.data
+A: .word 5, -2, 7, 0, 9, -4, 3, 1 #Array A
+
+.text
+.global_start
+
+start:
+    #p = &A[0], n = 8, sum = 0, count = 0 
+    la t0, A # t0 = p
+    li t1, 8 # n = 8
+    li t2, 0 # sum = 0
+    li t3, 0 # count = 0
+    
+while:
+    beq t1, x0, done
+    lw t4, 0(t0) #int v = *p
+    blt t4, x0, neg
+    add t2, t2, t4 # sum = sum + v
+    addi t5, t4, 1 # t5 = v&&1
+    beq t5, x0, step # count = count + 1
+    addi t3, t3, 1
+    j step
+    
+neg:
+    sw zero/x0, 0(t0) #*p = 0
+    
+step: 
+    addi t0, t0, 4 # p = p + 1
+    addi t1, t1, -1 # n = n - 1
+    j while
+    
+done:
+    nop
