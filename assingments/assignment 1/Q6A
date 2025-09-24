@@ -1,0 +1,17 @@
+// Sorts a 10-element array from lowest to highest
+// Argument: scores = address of integer array
+void sort(int scores[]) {
+    int i, j, temp;
+
+    // Bubble sort: compare adjacent elements and swap
+    for (i = 0; i < 10 - 1; i++) {         // outer loop
+        for (j = 0; j < 10 - i - 1; j++) { // inner loop
+            if (scores[j] > scores[j + 1]) {
+                // swap scores[j] and scores[j+1]
+                temp = scores[j];
+                scores[j] = scores[j + 1];
+                scores[j + 1] = temp;
+            }
+        }
+    }
+}
