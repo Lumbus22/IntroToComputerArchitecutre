@@ -1,0 +1,9 @@
+    addi t2, zero, 31      # i = 31 (bit index, MSB first)
+loop:
+    and  t3, a0, t2        # extract bit i of a0
+    andi t3, t3, 1         # isolate 0/1
+    sb   t3, 0(a1)         # store into array
+    addi a1, a1, 1         # move array pointer
+    addi t2, t2, -1        # i--
+    bgez t2, loop          # loop until i < 0
+    jr   ra
