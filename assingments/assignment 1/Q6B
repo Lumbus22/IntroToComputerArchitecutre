@@ -1,10 +1,5 @@
-########################################################
-# void sort(int scores[])
-# Bubble sort for 10-element integer array
-# Argument:
-#   a0 = base address of scores[]
-########################################################
-
+#Q6B
+# Bubble sort implementation in RISC-V assembly
     .text
     .globl sort
 

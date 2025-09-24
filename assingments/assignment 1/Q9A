@@ -1,3 +1,5 @@
+#Q9A
+
         addi    a0, zero, 24    # Initialize a0 = 24 (example value A)
         addi    a1, zero, 3     # Initialize a1 = 3 (example value B)
         addi    t2, zero, 0     # t2 = 0 (counter/quotient)

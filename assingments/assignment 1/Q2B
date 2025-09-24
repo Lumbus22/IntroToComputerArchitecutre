@@ -1,15 +1,5 @@
 #include <stdio.h>
-
-/*
- * Function: fib
- * ----------------------------
- *   Returns the nth Fibonacci number for a nonnegative integer n.
- *   Uses an iterative approach (loop) for efficiency.
- *
- *   n: nonnegative integer (0, 1, 2, ...)
- *
- *   returns: nth Fibonacci number
- */
+// Function to compute the nth Fibonacci number iteratively
 int fib(int n) {
     if (n < 0) {
         // Handle invalid input

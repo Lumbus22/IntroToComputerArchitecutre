@@ -1,18 +1,11 @@
-########################################################
-# void concat(char string1[], char string2[], char stringconcat[])
-# Arguments:
-#   a0 = string1 address
-#   a1 = string2 address
-#   a2 = stringconcat address
-########################################################
+#Q5B
+# Concatenate two null-terminated strings in RISC-V assembly
 
     .text
     .globl concat
 
 concat:
-    # ------------------------
     # Copy string1 into stringconcat
-    # ------------------------
 copy_str1:
     lb t0, 0(a0)          # load byte from string1[i]
     beq t0, x0, copy_str2 # if string1[i] == '\0', go copy string2
@@ -21,9 +14,8 @@ copy_str1:
     addi a2, a2, 1        # k++
     j copy_str1
 
-    # ------------------------
     # Copy string2 into stringconcat
-    # ------------------------
+
 copy_str2:
     lb t1, 0(a1)          # load byte from string2[j]
     beq t1, x0, done      # if string2[j] == '\0', we are done

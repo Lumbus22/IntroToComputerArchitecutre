@@ -1,0 +1,13 @@
+//Q9B
+
+// Returns floor(A / B) for positive A,B using repeated addition
+int divide_by_loop(int A, int B) {
+    int t2 = 0;
+    int t3 = B;
+    // increment t3 by B until it becomes > A
+    while (!(A < t3)) {     // while (t3 <= A)
+        t2 = t2 + 1;
+        t3 = t3 + B;
+    }
+    return t2;              // quotient (floor(A / B))
+}

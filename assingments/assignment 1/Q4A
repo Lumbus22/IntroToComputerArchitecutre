@@ -1,14 +1,5 @@
-########################################################
-# int f(int n, int k)
-# Arguments:
-#   a0 = n
-#   a1 = k
-# Return:
-#   a0 = result
-# Local variable:
-#   s4 = b
-# Function entry: 0x8100
-########################################################
+#Q4A
+# Recursive function implementation in RISC-V assembly
 
     .text
     .globl f

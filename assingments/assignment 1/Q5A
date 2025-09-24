@@ -1,0 +1,24 @@
+// Concatenates string1 and string2 into stringconcat
+// Assumes stringconcat is large enough to hold the result
+void concat(char string1[], char string2[], char stringconcat[]) {
+    int i = 0;  // index for string1
+    int j = 0;  // index for string2
+    int k = 0;  // index for stringconcat
+
+    // Copy string1 into stringconcat
+    while (string1[i] != '\0') {       // until null terminator
+        stringconcat[k] = string1[i];
+        i++;
+        k++;
+    }
+
+    // Copy string2 into stringconcat (after string1)
+    while (string2[j] != '\0') {       // until null terminator
+        stringconcat[k] = string2[j];
+        j++;
+        k++;
+    }
+
+    // Add final null terminator
+    stringconcat[k] = '\0';
+}
