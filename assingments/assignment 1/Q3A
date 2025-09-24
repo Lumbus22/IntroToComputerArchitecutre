@@ -1,0 +1,70 @@
+#Q3A
+
+.text
+.globl main
+
+
+sub:
+    # a0 = a, a1 = b
+    sub a0, a0, a1   # result = a - b
+    jr ra            # return result in a0
+
+
+compare:
+    addi sp, sp, -16      # new stack frame
+    sw ra, 12(sp)         # save return address
+    sw a0, 8(sp)          # save argument a
+    sw a1, 4(sp)          # save argument b
+
+    # call sub(a, b)
+    lw a0, 8(sp)          # reload a
+    lw a1, 4(sp)          # reload b
+    jal ra, sub           # call sub
+
+    # check if result >= 0
+    blt a0, x0, L_else
+    li a0, 1              # return 1
+    j L_end
+L_else:
+    li a0, 0              # return 0
+L_end:
+    lw ra, 12(sp)         # restore ra
+    addi sp, sp, 16       # pop stack frame
+    jr ra                 # return
+
+
+setArray:
+    addi sp, sp, -56      # allocate: 40 for array + 16 for ra/s4/align
+    sw ra, 52(sp)         # save ra
+    sw s4, 48(sp)         # save s4 (loop index)
+
+    mv s4, x0             # i = 0
+
+Loop:
+    bge s4, 10, Done      # if (i >= 10) break
+
+    # call compare(num, i)
+    mv a0, a0             # a0 = num (already passed in)
+    mv a1, s4             # a1 = i
+    jal ra, compare       # result in a0
+
+    # store result into array[i]
+    slli t0, s4, 2        # offset = i * 4
+    add t0, sp, t0        # t0 = sp + offset
+    sw a0, 0(t0)          # array[i] = result
+
+    addi s4, s4, 1        # i++
+    j Loop
+
+Done:
+    lw ra, 52(sp)         # restore ra
+    lw s4, 48(sp)         # restore s4
+    addi sp, sp, 56       # pop stack frame
+    jr ra                 # return
+
+
+main:
+    li a0, 7              # pass num = 7
+    jal ra, setArray      # call setArray
+    li a7, 10             # exit syscall
+    ecall
